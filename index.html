@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Velha</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Jogo da Velha</h1>
+        <div class="tabuleiro">
+            <div class="casa" data-casa></div>
+            <div class="casa" data-casa></div>
+            <div class="casa" data-casa></div>
+            <div class="casa" data-casa></div>
+            <div class="casa" data-casa></div>
+            <div class="casa" data-casa></div>
+            <div class="casa" data-casa></div>
+            <div class="casa" data-casa></div>
+            <div class="casa" data-casa></div>
+        </div>
+        <button id="reiniciar">Reiniciar</button>
+    </div>
+
+	<script>
+	    const casas = document.querySelectorAll('[data-casa]');
+	    const reiniciarBtn = document.getElementById('reiniciar');
+	    let turno = 'X';
+	    let jogoAtivo = true;
+
+	    const combinacoesVitoria = [
+	        [0, 1, 2], [3, 4, 5], [6, 7, 8],
+	        [0, 3, 6], [1, 4, 7], [2, 5, 8],
+	        [0, 4, 8], [2, 4, 6]
+	    ];
+
+	    function checarVitoria() {
+	        for (const combinacao of combinacoesVitoria) {
+	            const [a, b, c] = combinacao;
+	            if (
+	                casas[a].textContent &&
+	                casas[a].textContent === casas[b].textContent &&
+	                casas[a].textContent === casas[c].textContent
+	            ) {
+	                casas[a].classList.add('vencedor');
+	                casas[b].classList.add('vencedor');
+	                casas[c].classList.add('vencedor');
+	                jogoAtivo = false;
+	                return true;
+	            }
+	        }
+	        return false;
+	    }
+
+	    function checarEmpate() {
+	        const todasPreenchidas = Array.from(casas).every(casa => casa.textContent !== '');
+	        if (todasPreenchidas && jogoAtivo) {
+	            casas.forEach(casa => casa.classList.add('empate'));
+	            jogoAtivo = false;
+	        }
+	    }
+
+	    casas.forEach(casa => {
+	        casa.addEventListener('click', () => {
+	            if (casa.textContent === '' && jogoAtivo) {
+	                casa.textContent = turno;
+	                const venceu = checarVitoria();
+	                if (!venceu) {
+	                    checarEmpate();
+	                }
+	                turno = turno === 'X' ? 'O' : 'X';
+	            }
+	        });
+	    });
+
+	    reiniciarBtn.addEventListener('click', () => {
+	        casas.forEach(casa => {
+	            casa.textContent = '';
+	            casa.classList.remove('vencedor', 'empate');
+	        });
+	        turno = 'X';
+	        jogoAtivo = true;
+	    });
+	</script>
+
+
+</body>
+</html>
