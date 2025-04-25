@@ -20,7 +20,7 @@ Este código é uma página simples que apresenta um jogo da velha funcional ape
     </td>
     <td align="left">
       <a href="https://github.com/usuario">
-        <span><b>Instrutor</b></span>
+        <span><b>leonardo</b></span>
       </a>
       <br>
       <span>PJD-02-N-25 (SENAI UBERLANDIA)</span>
